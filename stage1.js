@@ -33,7 +33,6 @@ app.get('/api', async function (req, res) {
     console.log(utcTime);
     if (utcTime !== null) {
       console.log(`UTC Time within +/- ${allowedDeviationInSeconds} seconds range: ${utcTime}`);
-      // Use 'utcTime' in your endpoint here
     } else {
       console.error(`UTC Time is not within the valid range.`);
     }
