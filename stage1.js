@@ -29,7 +29,6 @@ function validateTimeWithinRange(targetTime, allowedDeviationInSeconds) {
 const allowedDeviationInSeconds = 120;
 
 const targetTime = getCurrentUTCTime();
-console.log(targetTime);
 const isValid = validateTimeWithinRange(targetTime, allowedDeviationInSeconds);
 
 let utcTime = null;
@@ -42,6 +41,8 @@ if (isValid) {
 }
 
 app.get('/api', async function (req, res) {
+  getCurrentUTCTime()
+  validateTimeWithinRange(targetTime, allowedDeviationInSeconds)
   try {
     const slackName = req.query.slack_name; // Extract Slack Name from query parameter
     const chosenTrack = req.query.track;     // Extract Chosen Track from query parameter
