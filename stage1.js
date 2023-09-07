@@ -1,37 +1,35 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const moment = require('moment-timezone');
+const app = express();
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const d = new Date();
-let day = weekday[d.getDay()]
+let day = weekday[d.getDay()];
+
+// Set the server's timezone to match your local timezone
+moment.tz.setDefault('Your/Timezone'); // Replace 'Your/Timezone' with your actual timezone
 
 function getCurrentUTCTime() {
-  const now = new Date();
-  const year = now.getUTCFullYear();
-  const month = String(now.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(now.getUTCDate()).padStart(2, '0');
-  const hours = String(now.getUTCHours()).padStart(2, '0');
-  const minutes = String(now.getUTCMinutes()).padStart(2, '0');
-  const seconds = String(now.getUTCSeconds()).padStart(2, '0');
-  
-  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
+  const currentUTCTime = moment().utc().format('YYYY-MM-DDTHH:mm:ss') + 'Z';
+  return currentUTCTime;
 }
 
 function validateTimeWithinRange(targetTime, allowedDeviationInSeconds) {
-  const currentTime = new Date();
-  const target = new Date(targetTime);
-  const timeDifference = Math.abs(currentTime - target) / 1000; // Convert to seconds
+  const currentTime = moment().utc();
+  const target = moment(targetTime).utc();
+  const timeDifference = Math.abs(currentTime.diff(target, 'seconds'));
 
   return timeDifference <= allowedDeviationInSeconds;
 }
 
-const allowedDeviationInSeconds = 2;
+const allowedDeviationInSeconds = 120;
 
 const targetTime = getCurrentUTCTime();
+console.log(targetTime);
 const isValid = validateTimeWithinRange(targetTime, allowedDeviationInSeconds);
 
 let utcTime = null;
@@ -64,7 +62,6 @@ app.get('/api', async function (req, res) {
   }
 });
 
-
 app.listen(5000, () => {
   console.log("Server Started");
-})
+});
