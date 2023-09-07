@@ -1,51 +1,46 @@
-const express = require('express');
-const moment = require('moment-timezone');
-const app = express();
+const express = require('express')
+const app = express()
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const d = new Date();
-let day = weekday[d.getDay()];
+let day = weekday[d.getDay()]
 
-// Set the server's timezone to match your local timezone
-moment.tz.setDefault('Your/Timezone'); // Replace 'Your/Timezone' with your actual timezone
+function validateAndGetUTCTime(allowedDeviationInSeconds) {
+  const now = new Date();
+  const targetTime = now.toISOString();
+  const currentTime = new Date(targetTime);
+  const timeDifference = Math.abs(now - currentTime) / 1000; // Convert to seconds
 
-function getCurrentUTCTime() {
-  const currentUTCTime = moment().utc().format('YYYY-MM-DDTHH:mm:ss') + 'Z';
-  return currentUTCTime;
+  if (timeDifference <= allowedDeviationInSeconds) {
+    return targetTime;
+  } else {
+    return null; // Return null if UTC time is not valid
+  }
 }
 
-function validateTimeWithinRange(targetTime, allowedDeviationInSeconds) {
-  const currentTime = moment().utc();
-  const target = moment(targetTime).utc();
-  const timeDifference = Math.abs(currentTime.diff(target, 'seconds'));
 
-  return timeDifference <= allowedDeviationInSeconds;
-}
 
-const allowedDeviationInSeconds = 120;
-
-const targetTime = getCurrentUTCTime();
-const isValid = validateTimeWithinRange(targetTime, allowedDeviationInSeconds);
-
-let utcTime = null;
-
-if (isValid) {
-  utcTime = targetTime;
-  console.log(`UTC Time within +/- ${allowedDeviationInSeconds} seconds range: ${utcTime}`);
-} else {
-  console.log(`UTC Time is not within the valid range.`);
-}
 
 app.get('/api', async function (req, res) {
   try {
+    const allowedDeviationInSeconds = 120;
+
+    const utcTime = validateAndGetUTCTime(allowedDeviationInSeconds);
+    console.log(utcTime);
+    if (utcTime !== null) {
+      console.log(`UTC Time within +/- ${allowedDeviationInSeconds} seconds range: ${utcTime}`);
+      // Use 'utcTime' in your endpoint here
+    } else {
+      console.error(`UTC Time is not within the valid range.`);
+    }
+
     const slackName = req.query.slack_name; // Extract Slack Name from query parameter
     const chosenTrack = req.query.track;     // Extract Chosen Track from query parameter
 
-    const utcTime = getCurrentUTCTime();
     const json = {
       slack_name: slackName,
       current_day: day,
@@ -62,6 +57,7 @@ app.get('/api', async function (req, res) {
   }
 });
 
+
 app.listen(5000, () => {
   console.log("Server Started");
-});
+})
