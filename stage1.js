@@ -47,8 +47,8 @@ function getCurrentUTCTime() {
             current_day: day,
             utc_time: utcTime,
             track: chosenTrack,
-            github_file_url: "https://github.com/Tad-z/HNG",
-            github_repo_url: "https://github.com/Tad-z",
+            github_file_url: "https://github.com/Tad-z/HNG_/blob/main/stage1.js",
+            github_repo_url: "https://github.com/Tad-z/HNG_",
             status_code: 200
         };
 
