@@ -11,8 +11,14 @@ let day = weekday[d.getDay()]
 
 function getCurrentUTCTime() {
   const now = new Date();
-  const currentUTCTime = now.toISOString().split(".")[0] + "Z";
-  return currentUTCTime;
+  const year = now.getUTCFullYear();
+  const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(now.getUTCDate()).padStart(2, '0');
+  const hours = String(now.getUTCHours()).padStart(2, '0');
+  const minutes = String(now.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(now.getUTCSeconds()).padStart(2, '0');
+  
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
 }
 
 function validateTimeWithinRange(targetTime, allowedDeviationInSeconds) {
