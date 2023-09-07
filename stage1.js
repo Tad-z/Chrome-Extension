@@ -41,12 +41,11 @@ if (isValid) {
 }
 
 app.get('/api', async function (req, res) {
-  getCurrentUTCTime()
-  validateTimeWithinRange(targetTime, allowedDeviationInSeconds)
   try {
     const slackName = req.query.slack_name; // Extract Slack Name from query parameter
     const chosenTrack = req.query.track;     // Extract Chosen Track from query parameter
 
+    const utcTime = getCurrentUTCTime();
     const json = {
       slack_name: slackName,
       current_day: day,
