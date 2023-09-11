@@ -70,10 +70,11 @@ The API will be available at http://localhost:5000/api.
 
 ### Get a Specific Person
 - Endpoint: GET /api/:user_id
+- Where user_id is the valid _id of a person document
 
 ### Update a Person
 - Endpoint: PUT /api/:user_id
-- Where user_id is the valid _id of a person document
+
 
 ### Delete a Person
 - Endpoint: DELETE /api/persons/:user_id
