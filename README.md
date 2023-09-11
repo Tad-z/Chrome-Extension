@@ -58,15 +58,15 @@ This API uses MongoDB as the database. Make sure you have MongoDB installed and 
   npm start
   ```
 
-The API will be available at http://localhost:5000/api.
+Base URL: http://localhost:5000
 
 ## Endpoints
 
 ### Create a Person
-- [Endpoint: POST /api]
+- Endpoint: POST /api
 
 ### Get all Persons
-- [Endpoint: GET /api]
+- Endpoint: GET /api
 
 ### Get a Specific Person
 - Endpoint: GET /api/:user_id
@@ -74,7 +74,6 @@ The API will be available at http://localhost:5000/api.
 
 ### Update a Person
 - Endpoint: PUT /api/:user_id
-
 
 ### Delete a Person
 - Endpoint: DELETE /api/persons/:user_id

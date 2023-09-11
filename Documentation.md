@@ -12,10 +12,15 @@
 
 ## Endpoints
 
+### Base URL
+- http://localhost:5000
+
 ### Create a Person
 
-- [Endpoint: POST /api]
+- Endpoint: POST /api
+- Example Request: http://localhost:5000/api
 - Request Body:
+
   ```bash
   {
   "name": "Mark Essien"
@@ -24,6 +29,7 @@
 - Make sure name is always a string
 
 - Response (Success - 201 Created):
+
   ```bash
   {
   "data": {
@@ -36,8 +42,10 @@
 
 ### Get all Persons
 
-- [Endpoint: GET /api]
+- Endpoint: GET /api
+- Example Request: http://localhost:5000/api
 - Response Body(Success - 200 OK):
+
   ```bash
   {
   "count": 2,
@@ -58,19 +66,22 @@
 ### Get a Specific Person
 
 - Endpoint: GET /api/:user_id
-- Where user_id is the valid \_id of a person document
+- Example Request: http://localhost:5000/api/64fedd4ce39b198b4d772eaf
+- Where user_id is the valid _id of a person document
 - Response (Success - 200 OK):
+
   ```bash
   {
-  "_id": "unique-identifier",
-  "name": "John Doe"
+  "_id": "unique-identifier-1",
+  "name": "Mark Essien"
   }
   ```
 
 ### Update a Person
 
 - Endpoint: PUT /api/:user_id
-- Where user_id is the valid \_id of a person document
+- Where user_id is the valid _id of a person document
+- Example Request: http://localhost:5000/api/64fedd4ce39b198b4d772eaf
 - Request Body:
 
   ```bash
@@ -81,6 +92,7 @@
   ```
 
 - Response (Success - 200 OK):
+
   ```bash
   {
   "message": "Updated successfully"
@@ -88,7 +100,8 @@
 
 ### Delete a Person
 
-- Endpoint: DELETE /api/persons/:user_id
+- Endpoint: DELETE /api/:user_id
+- Example Request: http://localhost:5000/api/64fedd4ce39b198b4d772eaf
 - Response (Success - 204 No Content)
 
 
@@ -98,7 +111,7 @@
 ## Known Limitations and Assumptions
 - The API assumes that the name field contains only alphabetic characters and spaces.
 
-## Deployment
+## Deployment on render
 - Sign up and Login on render using your github
 - Once signed up and logged in to your account, you will see a dashboard
 - Click on the New Web Service button under the Web Services option.
