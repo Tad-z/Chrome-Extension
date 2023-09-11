@@ -72,7 +72,13 @@ exports.updatePerson = async (req, res) => {
                 message: "Data to update can not be empty!",
             });
         }
+        
         const user_id = req.params.user_id;
+
+        const { name } = req.body;
+        if (!/^[A-Za-z\s]+$/.test(name)) {
+            return res.status(400).json({ error: 'Only strings allowed' });
+        }
         await Person.findByIdAndUpdate(user_id, req.body).then((data) => {
             if (!data) {
                 res.json({
