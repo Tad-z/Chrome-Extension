@@ -5,14 +5,6 @@ const personSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    sex: {
-        type: String,
-        required: true,
-    },
-    age: {
-        type: Number,
-        required: true,
-    }
 });
 
 module.exports = mongoose.model("Person", personSchema)

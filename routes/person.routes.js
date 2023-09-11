@@ -2,10 +2,10 @@ const { createPerson, getPersons, getPerson, updatePerson, deletePerson } = requ
 const express = require("express")
 const router = express.Router();
 
-router.post("/person/create/:name", createPerson);
-router.get("/person/getAll", getPersons);
-router.get("/person/get/:name", getPerson);
-router.put("/person/update/:id", updatePerson);
-router.delete("/deletePerson", deletePerson);
+router.post("/", createPerson);
+router.get("/get", getPersons);
+router.get("/:user_id", getPerson);
+router.put("/:user_id", updatePerson);
+router.delete("/:user_id", deletePerson);
 
 module.exports = router;
