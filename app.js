@@ -7,7 +7,6 @@ const main = require("./model/db");
 const personRouter = require("./routes/person.routes")
 
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", personRouter)

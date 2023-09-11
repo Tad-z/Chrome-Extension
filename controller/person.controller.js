@@ -1,30 +1,35 @@
 const Person = require("../model/person.model")
-const validator = require('validator');
 
 exports.createPerson = async (req, res) => {
     try {
-        if (!req.body) {
-            return res.status(400).json({
-                message: "Empty fields"
-            })
+        if (!req.body || !req.body.name) {
+            return res.status(400).json({ error: "Invalid request data" });
         }
-        const name = req.body.name;
-        if (!validator.isString(name)) {
-            return res.status(400).json({ error: 'Name must be a string' });
-        }
-        const person = new Person({
-            name
-        })
-        const savedPerson = await person.save()
-        return res.status(200).json({
-            savedPerson,
-            message: "Person created!!"
-        })
-    } catch (error) {
-        console.log(error);
-    }
 
-}
+        const { name } = req.body;
+        if (!/^[A-Za-z\s]+$/.test(name)) {
+            return res.status(400).json({ error: 'Only strings allowed' });
+        }
+
+        const existingPerson = await Person.findOne({ name: name.toLowerCase() });
+
+        if (existingPerson) {
+            return res.status(400).json({ error: "Person already exists" });
+        }
+
+        const person = new Person({ name: name.toLowerCase() });
+        const savedPerson = await person.save();
+
+        return res.status(201).json({
+            data: savedPerson,
+            message: "Person created successfully"
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
 
 exports.getPersons = async (req, res) => {
     try {
@@ -36,7 +41,8 @@ exports.getPersons = async (req, res) => {
             message: "Persons retrieved successfully"
         })
     } catch (error) {
-        console.log(error)
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
     }
 }
 
@@ -51,18 +57,16 @@ exports.getPerson = async (req, res) => {
                 });
             } else res.json(data);
         });
-        // if (!person) {
-        //     return res.status(404).json({ message: "Person not found" });
-        // }
-        // return res.json(person)
     } catch (error) {
-        console.log(error)
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
     }
 
 }
 
 exports.updatePerson = async (req, res) => {
     try {
+        if (!req.params.user_id) return res.status(400).json({ message: "Bad request" })
         if (Object.keys(req.body).length === 0) {
             return res.status(400).json({
                 message: "Data to update can not be empty!",
@@ -75,17 +79,18 @@ exports.updatePerson = async (req, res) => {
                     message: `Cannot update Person with id=${user_id}. Maybe Person was not found!`,
                 });
             } else res.json({
-                data,
                 message: "Updated successfully."
             });
         });
     } catch (error) {
-        console.log(error)
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
     }
 }
 
 exports.deletePerson = async (req, res) => {
     try {
+        if (!req.params.user_id) return res.status(400).json({ message: "Bad request" })
         const user_id = req.params.user_id;
         await Person.findByIdAndRemove(user_id).then((data) => {
             if (!data) {
@@ -97,6 +102,7 @@ exports.deletePerson = async (req, res) => {
             });
         })
     } catch (error) {
-        console.log(error)
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
     }
 }
