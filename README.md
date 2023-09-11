@@ -66,7 +66,7 @@ Base URL: http://localhost:5000
 - Endpoint: POST /api
 
 ### Get all Persons
-- Endpoint: GET /api
+- Endpoint: GET /api/get
 
 ### Get a Specific Person
 - Endpoint: GET /api/:user_id

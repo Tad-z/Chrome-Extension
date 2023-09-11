@@ -42,8 +42,8 @@
 
 ### Get all Persons
 
-- Endpoint: GET /api
-- Example Request: http://localhost:5000/api
+- Endpoint: GET /api/get
+- Example Request: http://localhost:5000/api/get
 - Response Body(Success - 200 OK):
 
   ```bash
