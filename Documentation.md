@@ -4,66 +4,11 @@
 
 ## Table of Contents
 
-- [Getting Started](#getting-started)
-  - [Installation](#installation)
-  - [Configuration](#configuration)
-  - [Database Setup](#database-setup)
-- [Usage](#usage)
 - [Endpoints](#endpoints)
-- [UML Diagrams](#uml-diagrams)
 - [Testing](#testing)
-- [Deployment](#deployment)
 - [Known Limitations and Assumptions](#known-limitations-and-assumptions)
-- [Contributing](#contributing)
-- [License](#license)
+- [Deployment](#deployment)
 
-## Getting Started
-
-### Installation
-
-To run this API on your local machine, follow these steps:
-
-- Clone this repository to your local machine:
-
-  ```bash
-  git clone https://github.com/Tad-z/HNG_.git
-
-  ```
-
-- Navigate to API directory on your local machine:
-
-  ```bash
-  cd HNG_
-
-  ```
-
-- Install Project dependencies:
-  ```bash
-  npm install
-  ```
-
-### Configuration
-
-This project uses environment variables for configuration. Create a .env file in the root directory and configure any required variables (e.g., database connection URI, port number).
-
-- Example .env file:
-  ```bash
-  DATABASE_URI=mongodb://localhost:27017/persons
-  PORT=5000
-  ```
-
-### Database Setup
-
-This API uses MongoDB as the database. Make sure you have MongoDB installed and running.
-
-## Usage
-
-- To start the API, run the following command:
-  ```bash
-  npm start
-  ```
-
-The API will be available at http://localhost:5000/api.
 
 ## Endpoints
 
@@ -146,10 +91,21 @@ The API will be available at http://localhost:5000/api.
 - Endpoint: DELETE /api/persons/:user_id
 - Response (Success - 204 No Content)
 
-## UML Diagrams
-<Link to diagrams>
 
 ## Testing
 - Tested my endpoints using postman
+
+## Known Limitations and Assumptions
+- The API assumes that the name field contains only alphabetic characters and spaces.
+
+## Deployment
+- Sign up and Login on render using your github
+- Once signed up and logged in to your account, you will see a dashboard
+- Click on the New Web Service button under the Web Services option.
+- Once clicked you will see a screen where you will click on the "Build and deploy from a Git repository" radio button
+- Now click on the connect button for the HNG_ repo
+- Fill in the fields appropriately
+- Add environmental variables
+- Click on Deploy.
 
 
