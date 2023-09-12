@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoSanitize = require('express-mongo-sanitize');
 
 const app = express();
 require("dotenv").config();
@@ -8,6 +9,7 @@ const personRouter = require("./routes/person.routes")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(mongoSanitize());
 
 app.use("/api", personRouter)
 
