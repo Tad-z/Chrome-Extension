@@ -56,26 +56,25 @@ exports.updatePerson = async (req, res) => {
                 message: "Data to update can not be empty!",
             });
         }
-        
+
         const user_id = req.params.user_id;
 
         const { name } = req.body;
         if (!/^[A-Za-z\s]+$/.test(name)) {
             return res.status(400).json({ error: 'Only strings allowed' });
         }
-        await Person.findByIdAndUpdate(user_id, req.body).then((data) => {
-            if (!data) {
-                return res.json({
-                    message: `Cannot update Person with id=${user_id}. Maybe Person was not found!`,
-                });
-            } 
-        });
-        const updatedPerson = await Person.find({ _id: user_id }).exec()
-        return res.json({
-            updatedPerson,
-            message: "Updated Successfully!"
-        })
-        
+        const person = await Person.findByIdAndUpdate(user_id, req.body)
+        if (!person) {
+            return res.json({
+                message: `Cannot update Person with id=${user_id}. Maybe Person was not found!`,
+            });
+        } else {
+            const updatedPerson = await Person.find({ _id: user_id }).exec()
+            return res.json({
+                updatedPerson,
+                message: "Updated Successfully!"
+            })
+        }
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Internal server error' });
