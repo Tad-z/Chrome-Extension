@@ -30,22 +30,6 @@ exports.createPerson = async (req, res) => {
     }
 };
 
-
-exports.getPersons = async (req, res) => {
-    try {
-        const persons = await Person.find().exec()
-        if (!persons) return res.json([])
-        return res.json({
-            count: persons.length,
-            persons,
-            message: "Persons retrieved successfully"
-        })
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Internal server error' });
-    }
-}
-
 exports.getPerson = async (req, res) => {
     try {
         if (!req.params.user_id) return res.status(400).json({ message: "Bad request" })
