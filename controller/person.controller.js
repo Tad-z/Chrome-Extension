@@ -81,13 +81,17 @@ exports.updatePerson = async (req, res) => {
         }
         await Person.findByIdAndUpdate(user_id, req.body).then((data) => {
             if (!data) {
-                res.json({
+                return res.json({
                     message: `Cannot update Person with id=${user_id}. Maybe Person was not found!`,
                 });
-            } else res.json({
-                message: "Updated successfully."
-            });
+            } 
         });
+        const updatedPerson = await Person.find({ _id: user_id }).exec()
+        return res.json({
+            updatedPerson,
+            message: "Updated Successfully!"
+        })
+        
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Internal server error' });

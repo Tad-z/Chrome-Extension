@@ -9,6 +9,7 @@ const personRouter = require("./routes/person.routes")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// For sanitization
 app.use(mongoSanitize());
 
 app.use("/api", personRouter)

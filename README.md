@@ -10,7 +10,6 @@
   - [Database Setup](#database-setup)
 - [Usage](#usage)
 - [Endpoints](#endpoints)
-- [UML Diagrams](#uml-diagrams)
 
 ## Getting Started
 
@@ -44,7 +43,7 @@ This project uses environment variables for configuration. Create a .env file in
 - Example .env file:
   ```bash
   DATABASE_URI=mongodb://localhost:27017/persons
-  PORT=5000
+  PORT=3000
   ```
 
 ### Database Setup
@@ -58,7 +57,7 @@ This API uses MongoDB as the database. Make sure you have MongoDB installed and 
   npm start
   ```
 
-Base URL: http://localhost:5000
+Base URL: https://stage1-gyv4.onrender.com
 
 ## Endpoints
 
@@ -76,10 +75,8 @@ Base URL: http://localhost:5000
 - Endpoint: PUT /api/:user_id
 
 ### Delete a Person
-- Endpoint: DELETE /api/persons/:user_id
+- Endpoint: DELETE /api/:user_id
 
-## UML Diagrams
-<Link to diagrams>
 
 
 
