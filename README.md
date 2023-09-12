@@ -64,9 +64,6 @@ Base URL: https://stage1-gyv4.onrender.com
 ### Create a Person
 - Endpoint: POST /api
 
-### Get all Persons
-- Endpoint: GET /api/get
-
 ### Get a Specific Person
 - Endpoint: GET /api/:user_id
 - Where user_id is the valid _id of a person document
