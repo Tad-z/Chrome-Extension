@@ -92,6 +92,7 @@
 ## Testing
 
 - Tested my endpoints using postman
+- View my documentation here: https://documenter.getpostman.com/view/22831205/2s9YC32E7R
 
 ## Known Limitations and Assumptions
 

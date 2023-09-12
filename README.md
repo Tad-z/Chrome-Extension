@@ -57,7 +57,7 @@ This API uses MongoDB as the database. Make sure you have MongoDB installed and 
   npm start
   ```
 
-Base URL: https://stage1-gyv4.onrender.com
+Base URL: http://localhost:3000
 
 ## Endpoints
 
