@@ -2,6 +2,7 @@ const express = require("express");
 const mongoSanitize = require('express-mongo-sanitize');
 const cron = require('node-cron');
 const axios = require('axios')
+const morgan = require('morgan')
 
 const app = express();
 require("dotenv").config();
@@ -13,6 +14,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // For sanitization
 app.use(mongoSanitize());
+
+app.use(morgan("dev"))
 
 app.use("/api", personRouter)
 
