@@ -33,7 +33,7 @@ main()
 cron.schedule('*/10 * * * *', async () => {
   try {
     // Make a GET request to a specific endpoint (e.g., /api/keep-alive)
-    const response = await axios.get(`https://stage1-gyv4.onrender.com/api`)
+    const response = await axios.get(`https://stage1-gyv4.onrender.com/api/650187a7638e84d63e79de89`)
     console.log('Response:', response.data);
   } catch (error) {
     console.error('Error:', error.message);
