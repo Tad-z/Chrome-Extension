@@ -2,12 +2,17 @@ import express, { Application } from "express";
 import dotenv from "dotenv";
 import main from "./models/db";
 import fileRouter from "./routes/files.routes"
-
+declare global {
+  var __basedir: string;
+}
 
 dotenv.config();
 
 const app: Application = express();
 const PORT: number = 3000;
+
+global.__basedir = __dirname;
+
 
 
 main()

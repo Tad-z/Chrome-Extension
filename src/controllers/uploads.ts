@@ -4,7 +4,7 @@ import util from "util"
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./src/uploads/");
+    cb(null, __basedir + '/uploads');
   },
 
   filename: function (req, file, cb) {
