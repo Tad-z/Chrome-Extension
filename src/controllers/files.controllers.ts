@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import File from "../models/file";
 import multer from "multer";
 import fs from "fs"
+import path from "path";
 
 
 export const fileUpload = async (req: Request, res: Response) => {
@@ -39,7 +40,8 @@ export const fileDownload = async (req: Request, res: Response) => {
   try {
     const name = req.params.fileName;
 
-    const fileName = __basedir + name;
+    const fileName = path.join(__dirname, "..", "uploads", name);
+    console.log(fileName)
 
     // Find the file record in your database
     const file = await File.findOne({ file: fileName });
@@ -61,7 +63,7 @@ export const streamVideoFiles = async (req: Request, res: Response) => {
   try {
     const name = req.params.videoName;
 
-    const filePath = `src\\uploads\\${name}`;
+    const filePath = path.join(__dirname, "..", "uploads", name);
 
     const stat = fs.statSync(filePath);
     const fileSize = stat.size;
