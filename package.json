@@ -1,10 +1,11 @@
 {
-  "name": "HNG_STAGE5",
+  "name": "hng-stage5",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
     "start:dev": "npx nodemon"
   },
   "keywords": [],
