@@ -39,7 +39,7 @@ export const fileDownload = async (req: Request, res: Response) => {
   try {
     const name = req.params.fileName;
 
-    const fileName = `src\\uploads\\${name}`;
+    const fileName = __basedir + name;
 
     // Find the file record in your database
     const file = await File.findOne({ file: fileName });
