@@ -9,7 +9,7 @@
     "start:dev": "npx nodemon"
   },
   "engines": {
-    "node": ">=14.17.1"
+    "node": ">=14.17.0"
   },
   "keywords": [],
   "author": "",
