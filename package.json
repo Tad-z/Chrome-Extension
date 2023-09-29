@@ -8,6 +8,9 @@
     "build": "tsc",
     "start:dev": "npx nodemon"
   },
+  "engines": {
+    "node": ">=14.20.1"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
