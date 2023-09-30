@@ -1,62 +1,55 @@
 import { Request, Response } from "express";
-import File from "../models/file";
 import multer from "multer";
 import fs from "fs"
 import path from "path";
 
 
-export const fileUpload = async (req: Request, res: Response) => {
+export const fileUpload = (req: Request, res: Response) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded" });
+      return res.status(400).json({ message: 'No file uploaded' });
     }
-    const upload = new File({
-      file: req.file?.path,
-    });
-    const result = await upload.save();
+    console.log(req.file);
+    
     res.status(200).json({
-      result,
-      message: "File uploaded successfully",
+      message: 'File uploaded successfully',
+      filename: req.file.originalname, 
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     if (error instanceof multer.MulterError) {
-      if (error.code === "LIMIT_FILE_SIZE") {
+      if (error.code === 'LIMIT_FILE_SIZE') {
         return res.status(500).send({
-          message: "File size cannot be larger than 200MB!",
+          message: 'File size cannot be larger than 200MB!',
         });
       }
     }
 
     res.status(500).json({
-      message: "Internal server error",
+      message: 'Internal server error',
     });
   }
 };
 
 
-export const fileDownload = async (req: Request, res: Response) => {
+export const fileDownload = (req: Request, res: Response) => {
   try {
     const name = req.params.fileName;
 
-    const fileName = path.join(__dirname, "..", "uploads", name);
-    console.log(fileName)
+    const filePath = path.join(__dirname, '..', 'uploads', name);
 
-    // Find the file record in your database
-    const file = await File.findOne({ file: fileName });
-
-    if (!file) {
-      return res.status(404).json({ message: "File not found" });
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ message: 'File not found' });
     }
 
-    // Send the file as an attachment for download
-    res.download(file.file);
+    res.download(filePath, name); 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 
 export const streamVideoFiles = async (req: Request, res: Response) => {
