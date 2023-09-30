@@ -2,6 +2,8 @@ import express, { Application } from "express";
 import dotenv from "dotenv";
 import main from "./models/db";
 import fileRouter from "./routes/files.routes"
+import path from "path";
+
 declare global {
   var __basedir: string;
 }
@@ -27,7 +29,8 @@ main()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", fileRouter);
+app.use('/', express.static(path.join(__dirname, 'uploads')));
+app.use("/file", fileRouter);
 
 
 
