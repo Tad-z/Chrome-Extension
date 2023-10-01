@@ -9,6 +9,7 @@ router.post('/upload', receiveVideoChunk);
 // router.post('/finish', finishFile)
 router.post('/save', saveMergedVideo);
 router.get('/', listFiles);
+// router.get('/transcribe', transcribeLocalVideo);
 router.post('/', uploadFilesMiddleware, fileUpload);
 router.get('/download/:fileName', fileDownload);
 router.get('/:videoName', streamVideoFiles)

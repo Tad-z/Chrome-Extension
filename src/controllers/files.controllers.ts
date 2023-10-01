@@ -3,11 +3,13 @@ import multer from "multer";
 import fs from "fs";
 import path from "path";
 import File from "../models/file";
-import ffmpeg from "fluent-ffmpeg"
+import ffmpeg from "fluent-ffmpeg";
+import { Deepgram } from "@deepgram/sdk";
 // import { Writable } from "stream";
 // import { log } from "console";
 
 // let isFileReady = false;
+const deepgram = new Deepgram("9eedab2278a9a22f9bc1f567f520ec656ce54ab0");
 
 const getFormattedDate = () => {
   const date = new Date();
@@ -133,6 +135,22 @@ export const listFiles = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// export const transcribeLocalVideo = async (req: Request, res: Response) => {
+//   try {
+//     const response = await deepgram.transcription.preRecorded(
+//       { url: "https://helpmeout-e2c4.onrender.com/vid2.mp4" },
+//       { punctuate: true, utterances: true }
+//     );
+
+//     const srtTranscript = response.toSRT();
+//     console.log({ srtTranscript });
+//     res.status(200).json({ transcript: srtTranscript });
+//   } catch (error) {
+//     console.error("Error transcribing video:", error);
+//     return res.status(400).json({ message: "Error transcribing video" });
+//   }
+// };
 
 
 // // Global variables to track file creation, data appending, and file readiness
