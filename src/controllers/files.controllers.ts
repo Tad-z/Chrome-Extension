@@ -27,14 +27,27 @@ if (!fs.existsSync(uploadDir)) {
 // Define an array to store received chunks
 const chunkArray: Buffer[] = [];
 
-// Function to receive and append video chunks
-export const receiveVideoChunk = (req: Request, res: Response): void => {
-  const chunk: Buffer = req.body;
-  chunkArray.push(chunk);
 
-  // Send a response to acknowledge receiving the chunk
-  res.status(200).json({ message: 'Chunk received' });
+export const receiveVideoChunk = (req: Request, res: Response): void => {
+  try {
+    const chunk: Buffer = req.body;
+
+    if (!Buffer.isBuffer(chunk)) {
+      // If the received data is not a Buffer, respond with a bad request status
+      res.status(400).json({ message: 'Invalid chunk data' });
+      return;
+    }
+
+    chunkArray.push(chunk);
+
+    // Send a response to acknowledge receiving the chunk
+    res.status(200).json({ message: 'Chunk received' });
+  } catch (error) {
+    console.error('Error receiving video chunk:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
+
 
 // Function to merge and serve the video file
 export const serveMergedVideo = (req: Request, res: Response): void => {
