@@ -79,6 +79,8 @@ export const saveMergedVideo = async (req: Request, res: Response) => {
     // Write the merged buffer to a video file
     videoFilePath = path.join(uploadDir, fileName);
     fs.writeFileSync(videoFilePath, mergedBuffer);
+    console.log("Merged video file saved");
+    
 
     const getMetadata = () => {
       return new Promise<any>((resolve, reject) => {
@@ -105,6 +107,8 @@ export const saveMergedVideo = async (req: Request, res: Response) => {
       metadata: { fileFormat, Duration }
     });
     const result = await upload.save();
+    console.log({ result });
+    
     res.status(200).json({
       result,
       message: "File uploaded successfully",
