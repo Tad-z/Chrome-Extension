@@ -31,10 +31,13 @@ const chunkArray: Buffer[] = [];
 export const receiveVideoChunk = (req: Request, res: Response): void => {
   try {
     const chunk: Buffer = req.body;
+    console.log({ chunk });
+    
 
     if (!Buffer.isBuffer(chunk)) {
       // If the received data is not a Buffer, respond with a bad request status
       res.status(400).json({ message: 'Invalid chunk data' });
+      console.log("Invalid chunk data");
       return;
     }
 
@@ -42,30 +45,45 @@ export const receiveVideoChunk = (req: Request, res: Response): void => {
 
     // Send a response to acknowledge receiving the chunk
     res.status(200).json({ message: 'Chunk received' });
+    console.log("Chunk received");
   } catch (error) {
     console.error('Error receiving video chunk:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
 
-
-// Function to merge and serve the video file
+// Function to serve the merged video file
 export const serveMergedVideo = (req: Request, res: Response): void => {
-  // Concatenate all received chunks into a single ArrayBuffer
-  const mergedBuffer: Buffer = Buffer.concat(chunkArray);
+  try {
+    // Check if there are any received chunks
+    if (chunkArray.length === 0) {
+      res.status(404).json({ message: 'No video chunks received' });
+      console.log("No video chunks received");
+      return;
+    }
 
-  // Write the merged buffer to a video file
-  let formattedDate = getFormattedDate();
-  const fileName = `Untitled_Video_${formattedDate}.mp4`
-  const videoFilePath: string = path.join(uploadDir, fileName);
-  fs.writeFileSync(videoFilePath, mergedBuffer);
+    // Concatenate all received chunks into a single Buffer
+    const mergedBuffer: Buffer = Buffer.concat(chunkArray);
 
-  // Send the video file as a response
-  res.sendFile(videoFilePath);
 
-  // Clear the chunk array to prepare for the next video
-  chunkArray.length = 0;
+    // Write the merged buffer to a video file
+    let formattedDate = getFormattedDate();
+    const fileName = `Untitled_Video_${formattedDate}.mp4`;
+    const videoFilePath: string = path.join(uploadDir, fileName);
+    fs.writeFileSync(videoFilePath, mergedBuffer);
+
+    // Send the video file as a response
+    res.sendFile(videoFilePath);
+    console.log("Video file sent as response");
+
+    // Clear the chunk array to prepare for the next video
+    chunkArray.length = 0;
+  } catch (error) {
+    console.error('Error serving merged video:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
+
 
 // // Global variables to track file creation, data appending, and file readiness
 // let fileStream: fs.WriteStream | null = null;
