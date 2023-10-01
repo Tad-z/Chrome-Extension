@@ -139,7 +139,7 @@ export const listFiles = async (req: Request, res: Response) => {
 export const transcribeLocalVideo = async (req: Request, res: Response) => {
   try {
     const response = await deepgram.transcription.preRecorded(
-      { url: "https://helpmeout-e2c4.onrender.com/file/The%20Feynman%20Technique.mp4" },
+      { url: "https://helpmeout-e2c4.onrender.com/file/" + req.params.videoName },
       { punctuate: true, utterances: true }
     );
 

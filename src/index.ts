@@ -34,12 +34,12 @@ app.use(express.json({ limit: "50mb" }));
 
 
 
-// app.get('/api/:videoName', async function (req: Request, res: Response) {
-//   const videoName = req.params.videoName;
-//   console.log({ videoName });
-//   res.sendFile(path.join(process.cwd(), '/src/uploads/') + videoName);
-// }
-// );
+app.get('/api/:videoName', async function (req: Request, res: Response) {
+  const videoName = req.params.videoName;
+  console.log({ videoName });
+  res.sendFile(path.join(process.cwd(), '/src/uploads/') + videoName);
+}
+);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
