@@ -3,7 +3,6 @@ import fileRouter from "./routes/files.routes";
 import path from "path";
 import dotenv from "dotenv"
 import bodyParser from "body-parser";
-import e from "express";
 
 dotenv.config();
 
@@ -20,7 +19,7 @@ app.listen(PORT, (): void => {
   console.log("SERVER IS UP ON PORT:", PORT);
 });
 
-app.use(express.json());
+app.use(bodyParser.raw({ type: 'application/octet-stream', limit: '50mb' }));
 
 app.use(express.urlencoded({ extended: true }));
 
