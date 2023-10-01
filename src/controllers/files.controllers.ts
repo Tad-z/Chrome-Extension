@@ -122,6 +122,19 @@ export const saveMergedVideo = async (req: Request, res: Response) => {
   }
 };
 
+export const listFiles = async (req: Request, res: Response) => {
+  try {
+    const files = await File.find();
+    console.log({ files });
+
+    res.status(200).json({ files });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
 // // Global variables to track file creation, data appending, and file readiness
 // let fileStream: fs.WriteStream | null = null;
 // let isFileReady = false;
