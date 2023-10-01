@@ -3,7 +3,7 @@ import fileRouter from "./routes/files.routes";
 import path from "path";
 import dotenv from "dotenv"
 import bodyParser from "body-parser";
-import exp from "constants";
+import main from "./models/db";
 
 dotenv.config();
 
@@ -16,9 +16,14 @@ const PORT: number = 3000;
 
 global.__basedir = __dirname;
 
-app.listen(PORT, (): void => {
-  console.log("SERVER IS UP ON PORT:", PORT);
-});
+main()
+  .then(() => {
+    app.listen(PORT, (): void => {
+      console.log("SERVER IS UP ON PORT:", PORT);
+    });
+    console.log("DB connected");
+  })
+  .catch(console.error);
 
 app.use(express.json({ limit: '50mb' }));
 
