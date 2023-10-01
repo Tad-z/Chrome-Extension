@@ -25,29 +25,27 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 // Define an array to store received chunks
-const chunkArray: Buffer[] = [];
+const chunkArray: string[] = [];
 
 
 export const receiveVideoChunk = (req: Request, res: Response): void => {
   try {
-    const chunk: Buffer = req.body;
-    console.log({ chunk });
+    // Extract base64 data from the request body
+    const base64Data: string = req.body.base64Data;
+    console.log("base64Data:", base64Data);
     
 
-    if (!Buffer.isBuffer(chunk)) {
-      // If the received data is not a Buffer, respond with a bad request status
-      res.status(400).json({ message: 'Invalid chunk data' });
-      console.log("Invalid chunk data");
-      return;
-    }
+    // Push the base64 data to the array
+    chunkArray.push(base64Data);
+    console.log("chunkArray:", chunkArray);
+    
 
-    chunkArray.push(chunk);
-
-    // Send a response to acknowledge receiving the chunk
-    res.status(200).json({ message: 'Chunk received' });
-    console.log("Chunk received");
+    // Send a response indicating success
+    res.json({ message: 'Data received successfully' });
+    console.log("Data received successfully");
+    
   } catch (error) {
-    console.error('Error receiving video chunk:', error);
+    console.error('Error:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -55,28 +53,27 @@ export const receiveVideoChunk = (req: Request, res: Response): void => {
 // Function to serve the merged video file
 export const serveMergedVideo = (req: Request, res: Response): void => {
   try {
-    // Check if there are any received chunks
     if (chunkArray.length === 0) {
-      res.status(404).json({ message: 'No video chunks received' });
-      console.log("No video chunks received");
+      res.status(400).json({ message: 'No data received' });
       return;
     }
 
-    // Concatenate all received chunks into a single Buffer
-    const mergedBuffer: Buffer = Buffer.concat(chunkArray);
+    // Merge all base64 chunks into a single string
+    const mergedBase64: string = chunkArray.join('');
 
+    // Convert the merged base64 data to binary
+    const mergedBuffer: Buffer = Buffer.from(mergedBase64, 'base64');
 
-    // Write the merged buffer to a video file
-    let formattedDate = getFormattedDate();
-    const fileName = `Untitled_Video_${formattedDate}.mp4`;
-    const videoFilePath: string = path.join(uploadDir, fileName);
-    fs.writeFileSync(videoFilePath, mergedBuffer);
+    // Save the merged binary data as a video file
+    const formattedDate: string = getFormattedDate();
+    const fileName: string = `MergedVideo_${formattedDate}.mp4`;
+    const filePath: string = path.join(uploadDir, fileName);
+    fs.writeFileSync(filePath, mergedBuffer);
 
-    // Send the video file as a response
-    res.sendFile(videoFilePath);
-    console.log("Video file sent as response");
+    // Serve the merged video file
+    res.sendFile(filePath);
 
-    // Clear the chunk array to prepare for the next video
+    // Clear the chunk array for future requests
     chunkArray.length = 0;
   } catch (error) {
     console.error('Error serving merged video:', error);
