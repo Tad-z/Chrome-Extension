@@ -136,21 +136,21 @@ export const listFiles = async (req: Request, res: Response) => {
   }
 };
 
-// export const transcribeLocalVideo = async (req: Request, res: Response) => {
-//   try {
-//     const response = await deepgram.transcription.preRecorded(
-//       { url: "https://helpmeout-e2c4.onrender.com/vid2.mp4" },
-//       { punctuate: true, utterances: true }
-//     );
+export const transcribeLocalVideo = async (req: Request, res: Response) => {
+  try {
+    const response = await deepgram.transcription.preRecorded(
+      { url: "https://helpmeout-e2c4.onrender.com/file/The%20Feynman%20Technique.mp4" },
+      { punctuate: true, utterances: true }
+    );
 
-//     const srtTranscript = response.toSRT();
-//     console.log({ srtTranscript });
-//     res.status(200).json({ transcript: srtTranscript });
-//   } catch (error) {
-//     console.error("Error transcribing video:", error);
-//     return res.status(400).json({ message: "Error transcribing video" });
-//   }
-// };
+    const srtTranscript = response.toSRT();
+    console.log({ srtTranscript });
+    res.status(200).json({ transcript: srtTranscript });
+  } catch (error) {
+    console.error("Error transcribing video:", error);
+    return res.status(400).json({ message: "Error transcribing video" });
+  }
+};
 
 
 // // Global variables to track file creation, data appending, and file readiness
