@@ -4,7 +4,10 @@ import path from "path";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
+import cron from "node-cron";
+import axios from "axios";
 import main from "./models/db";
+import exp from "constants";
 
 
 dotenv.config();
@@ -52,3 +55,14 @@ app.use(
   bodyParser.raw({ type: "application/octet-stream", limit: "50mb" }),
   fileRouter
 );
+
+cron.schedule('*/14 * * * *', async () => {
+  try {
+    const response = await axios.get(`https://helpmeout-e2c4.onrender.com/file`)
+    console.log('Response:', response.data);
+  } catch (Error) {
+    console.error('Error:', Error);
+  } console.error('Keep-alive request error:', Error);
+});
+
+export default app;
