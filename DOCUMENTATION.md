@@ -6,8 +6,6 @@
 
 - [Endpoints](#endpoints)
 - [Testing](#testing)
-- [Known Limitations and Assumptions](#known-limitations-and-assumptions)
-- [Deployment](#deployment)
 
 ## Endpoints
 
@@ -91,10 +89,6 @@
 - Endpoint: GET /file/
 - Where fileName is filename gotten in the upload endpoint
 - Example Request: https://helpmeout-e2c4.onrender.com/file/
-
-
-
-
 
 ## Testing
 
