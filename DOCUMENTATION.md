@@ -92,7 +92,7 @@
 
 ## Testing
 
-- Tested my endpoints with my frontend partner
-- View my documentation here: 
+- Tested my endpoints with my frontend partner on his chrome extension and it worked
+- Tested my endpoints with postman and it worked
 
 
