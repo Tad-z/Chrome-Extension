@@ -105,5 +105,6 @@
 
 - Tested my endpoints with my frontend partner on his chrome extension and it worked
 - Tested my endpoints with postman and it worked
+- Postman documentation: https://documenter.getpostman.com/view/22831205/2s9YJdV21N
 
 
