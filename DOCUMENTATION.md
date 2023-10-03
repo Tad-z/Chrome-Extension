@@ -13,6 +13,17 @@
 
 - https://helpmeout-e2c4.onrender.com
 
+### Upload a whole file
+- Endpoint: POST /file/
+- Example Request: https://helpmeout-e2c4.onrender.com/file/
+- Request Body:
+
+  ```bash
+  Body should be form-data
+  key: video
+  value: video file from your machine
+  ```
+
 ### Receive chunks from the front end
 
 - Endpoint: POST /file/upload
