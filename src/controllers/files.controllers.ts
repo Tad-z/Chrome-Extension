@@ -6,7 +6,6 @@ import File from "../models/file";
 import ffmpeg from "fluent-ffmpeg";
 import { Deepgram } from "@deepgram/sdk";
 
-
 const deepgram = new Deepgram("9eedab2278a9a22f9bc1f567f520ec656ce54ab0");
 
 const getFormattedDate = () => {
@@ -39,7 +38,6 @@ export const receiveVideoChunk = (req: Request, res: Response): void => {
     console.log({ chunk });
     formattedDate = getFormattedDate();
     fileName = `Untitled_Video_${formattedDate}.mp4`;
-    
 
     if (!Buffer.isBuffer(chunk)) {
       // If the received data is not a Buffer, respond with a bad request status
@@ -51,10 +49,10 @@ export const receiveVideoChunk = (req: Request, res: Response): void => {
     chunkArray.push(chunk);
     console.log("Chunk received and saved");
 
-    res.status(200).json({ 
+    res.status(200).json({
       message: "Chunk received",
-      fileName
-     });
+      fileName,
+    });
   } catch (error) {
     console.error("Error receiving video chunk:", error);
 
@@ -79,7 +77,6 @@ export const saveMergedVideo = async (req: Request, res: Response) => {
     videoFilePath = path.join(uploadDir, fileName);
     fs.writeFileSync(videoFilePath, mergedBuffer);
     console.log("Merged video file saved");
-    
 
     const getMetadata = () => {
       return new Promise<any>((resolve, reject) => {
@@ -103,11 +100,11 @@ export const saveMergedVideo = async (req: Request, res: Response) => {
     const upload = new File({
       file: videoFilePath,
       fileName,
-      metadata: { fileFormat, Duration }
+      metadata: { fileFormat, Duration },
     });
     const result = await upload.save();
     console.log({ result });
-    
+
     res.status(200).json({
       result,
       message: "File uploaded successfully",
@@ -136,7 +133,9 @@ export const listFiles = async (req: Request, res: Response) => {
 export const transcribeLocalVideo = async (req: Request, res: Response) => {
   try {
     const response = await deepgram.transcription.preRecorded(
-      { url: "https://helpmeout-e2c4.onrender.com/file/" + req.params.videoName },
+      {
+        url: "https://helpmeout-e2c4.onrender.com/file/" + req.params.videoName,
+      },
       { punctuate: true, utterances: true }
     );
 
@@ -149,18 +148,23 @@ export const transcribeLocalVideo = async (req: Request, res: Response) => {
   }
 };
 
-
-export const fileUpload = (req: Request, res: Response) => {
+export const fileTranscribeAndUpload = async (req: Request, res: Response) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
     }
     console.log(req.file);
+    const response = await deepgram.transcription.preRecorded(
+      {
+        url:
+          "https://helpmeout-e2c4.onrender.com/file/" + req.file.originalname,
+      },
+      { punctuate: true, utterances: true }
+    );
 
-    res.status(200).json({
-      message: "File uploaded successfully",
-      filename: req.file.originalname,
-    });
+    const srtTranscript = response.toSRT();
+    console.log({ srtTranscript });
+    res.status(200).json({ transcript: srtTranscript });
   } catch (error) {
     console.error(error);
 
